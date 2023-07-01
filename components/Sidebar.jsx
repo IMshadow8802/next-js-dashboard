@@ -1,3 +1,4 @@
+
 import Link from "next/link";
 import Image from "next/image";
 import React from "react";
@@ -9,18 +10,12 @@ import { Tooltip } from "@material-tailwind/react";
 const Sidebar = ({ children }) => {
   return (
     <div className="flex ">
-      <div className="fixed w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between">
+      <div className="fixed w-20 md:w-20 h-screen p-4 bg-white border-r-[1px] flex flex-col justify-between">
         <div className="flex flex-col items-center font-hankenExtraBold">
           <Link href="/">
-            <Tooltip
-              className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 px-4 py-3 text-black font-hankenRegular"
-              content="Home"
-              placement="right"
-            >
               <div className="bg-purple-800 text-white p-3 rounded-lg inline-block">
                 <RxSketchLogo size={20} />
               </div>
-            </Tooltip>
           </Link>
           <span className="border-b-[1px] border-gray-200 w-full p-2"></span>
           <Link href="/">
@@ -56,7 +51,7 @@ const Sidebar = ({ children }) => {
             </div>
             </Tooltip>
           </Link>
-          <Link href="/">
+          <Link href="/test">
           <Tooltip
               className="bg-white border border-blue-gray-50 shadow-xl shadow-black/10 px-4 py-3 text-black font-hankenRegular"
               content="Master"
@@ -70,9 +65,12 @@ const Sidebar = ({ children }) => {
           </Link>
         </div>
       </div>
-      <main className="ml-20 w-full">{children}</main>
+      <main className="ml-20 md:ml-20 w-full">{children}</main>
     </div>
   );
 };
 
 export default Sidebar;
+
+
+

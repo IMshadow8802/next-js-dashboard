@@ -1,11 +1,11 @@
 import '@/styles/globals.css';
-import Sidebar from '@/components/Sidebar';
+import TestSidebar from './test';
+import SidebarNew from '@/components/SidebarNew';
 
 export default function App({ Component, pageProps }) {
   return (
-    <Sidebar>
+    <SidebarNew>
       <Component {...pageProps} />
-    </Sidebar>
-  
+    </SidebarNew>
   )
 }

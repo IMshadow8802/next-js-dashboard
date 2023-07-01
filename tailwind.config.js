@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const withMT = require("@material-tailwind/react/utils/withMT");
+module.exports = withMT({
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -27,14 +28,13 @@ module.exports = {
         }
       },
       fontFamily: {
-        hanken: ["Hanken Grotesk", "sans-serif"],
+        "Poppins": ["Poppins", "sans-serif"],
       },
       fontWeight: {
-        hankenRegular: 500,
-        hankenBold: 700,
-        hankenExtraBold: 700,
+        poppinsThin: 400,
+        poppinsBold: 500,
       },
     },
   },
   plugins: [],
-}
+})
