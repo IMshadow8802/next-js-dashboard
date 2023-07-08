@@ -27,16 +27,17 @@ const BarChart = () => {
   const [chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
-    const colors = ['rgb(53, 162, 235)', 'rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'];
+    const colors = ['rgb(53, 162, 235)', 'rgb(75, 192, 192)', 'rgb(255, 205, 86)', 'rgb(255, 99, 150)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)', 'rgb(201, 203, 207)'];
 
     setChartData({
       labels: ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'],
       datasets: [
         {
-          label: 'Sales $',
+          label: 'Sales ₹',
           data: [18127, 22201, 19490, 17938, 24182, 17842, 22475],
           borderColor: 'rgb(53, 162, 235)',
           backgroundColor: colors,
+          barThickness: 36
         },
       ],
     });

@@ -28,6 +28,7 @@ module.exports = withMT({
         }
       },
       fontFamily: {
+        sans: ['Roboto', 'sans-serif'],
         "Poppins": ["Poppins", "sans-serif"],
       },
       fontWeight: {

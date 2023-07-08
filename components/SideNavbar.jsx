@@ -1,5 +1,7 @@
 import { GiHamburgerMenu } from "react-icons/gi";
 import { Disclosure } from "@headlessui/react";
+import PropTypes from "prop-types";
+import { Avatar, Typography } from "@material-tailwind/react";
 import {
   MdOutlineSpaceDashboard,
   MdOutlineAnalytics,
@@ -10,62 +12,81 @@ import {
 import { FaRegComments } from "react-icons/fa";
 import { BiMessageSquareDots } from "react-icons/bi";
 import Link from "next/link";
-import React, { useState } from "react";
-import {
-  ChevronRightIcon,
-  ChevronDownIcon,
-} from "@heroicons/react/24/outline";
-import { RxSketchLogo} from "react-icons/rx";
-import { useMediaQuery } from 'react-responsive';
+import React, { useState, useEffect } from "react";
+import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
+import { RxSketchLogo } from "react-icons/rx";
+import { useMediaQuery } from "react-responsive";
 
-function SideNavbar({ children }) {
-    const [isMasterMenuOpen, setIsMasterMenuOpen] = useState(false);
-    const isTablet = useMediaQuery({ maxWidth: 768 });  
-    return (
-      <div>
-        <Disclosure as="nav">
-          <Disclosure.Button className="absolute top-4 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group">
-            {/* <GiHamburgerMenu className="block md:hidden h-6 w-6" aria-hidden="true" /> */}
-            <GiHamburgerMenu className={`block md:${isTablet ? '' : 'hidden'} aria-hidden="true"`} />
+function SideNavbar({ children, brandName,brandImg }) {
+  const [isMasterMenuOpen, setIsMasterMenuOpen] = useState(false);
+  const isTablet = useMediaQuery({ maxWidth: 768 });
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Add state for sidebar open/closed
+
+  const handleSidebarToggle = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  useEffect(() => {
+    if (!isTablet) {
+      setIsSidebarOpen(true);
+    } else if (isTablet) {
+      setIsSidebarOpen(false);
+    }
+  }, [isTablet]);
+
+  return (
+    <div className="bg-gray-100">
+      <Disclosure as="nav">
+        {isTablet && (
+          <Disclosure.Button
+            className="absolute top-4 right-4 inline-flex items-center peer justify-center rounded-md p-2 text-gray-800 hover:bg-gray-900 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white group"
+            onClick={handleSidebarToggle} // Add onClick event handler for sidebar toggle
+          >
+            <GiHamburgerMenu aria-hidden="true" />
           </Disclosure.Button>
-          <div className="p-6 w-1/2 h-screen bg-white z-20 fixed top-0 -left-96 lg:left-0 lg:w-60  peer-focus:left-0 peer:transition ease-out delay-150 duration-200">
-            <div className="flex flex-col justify-start item-center">
+        )}
+        <div
+          className={`p-6 rounded-2xl mt-4 mb-4 mr-1 ml-2 h-[calc(100vh-32px)] bg-white shadow-md shadow-blue-gray-500/5 z-20 fixed top-0 ${
+            isSidebarOpen ? "left-0" : "-left-full"
+          } w-72 transition-all duration-300`}
+        >
+          <div className="flex flex-col justify-start item-center">
+            <div className="flex flex-row">
+            <Avatar src={brandImg} size="sm" />
+            {brandName && (
+              <Typography variant="h6" color={"blue-gray"}>
+                {brandName}
+              </Typography>
+            )}
+            </div>
+            <span className="border-b-[3px] border-gray-200 w-full p-2"></span>
+            <div className="my-4 border-b-[3px] border-gray-200 pb-4 flex flex-col">
               <Link href="/">
-                <div className="bg-purple-800 text-white p-3 rounded-lg inline-block cursor-pointer">
-                  <RxSketchLogo size={20} />
+                <div className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+                  <MdOutlineSpaceDashboard className="text-2xl text-gray-600 group-hover:text-white " />
+                  <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+                    Dashboard
+                  </h3>
                 </div>
               </Link>
-              <span className="border-b-[1px] border-gray-200 w-full p-2"></span>
-              <div className="my-4 border-b border-gray-100 pb-4">
-                <Link href="/">
-                  <div className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                    <MdOutlineSpaceDashboard className="text-2xl text-gray-600 group-hover:text-white " />
-                    <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
-                      Dashboard
-                    </h3>
-                  </div>
-                </Link>
-                <Disclosure>
-                  {({ open }) => (
-                    <>
-                      <Disclosure.Button
-                        onClick={() => setIsMasterMenuOpen(!isMasterMenuOpen)}
-
-                      >
-                        <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+              <Disclosure>
+                {({ open }) => (
+                  <>
+                    <Disclosure.Button>
+                      <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                         <MdOutlineIntegrationInstructions className="text-2xl text-gray-600 group-hover:text-white " />
                         <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
                           Master
                         </h3>
-                        
+
                         {isMasterMenuOpen ? (
                           <ChevronDownIcon className="h-5 w-5 text-gray-600 group-hover:text-white" />
                         ) : (
                           <ChevronRightIcon className="h-5 w-5 text-gray-600 group-hover:text-white" />
                         )}
-                        </div>
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="pl-4">
+                      </div>
+                    </Disclosure.Button>
+                    <Disclosure.Panel className="pl-4">
                       <Link href="/Brand">
                         <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                           <FaRegComments className="text-2xl text-gray-600 group-hover:text-white " />
@@ -73,52 +94,69 @@ function SideNavbar({ children }) {
                             Brand
                           </h3>
                         </div>
-                        </Link>
-                        <Link href="/customers">
+                      </Link>
+                      <Link href="/customers">
                         <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                           <MdOutlineAnalytics className="text-2xl text-gray-600 group-hover:text-white " />
                           <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
                             Customer
                           </h3>
                         </div>
-                        </Link>
-                        <Link href="/orders">
+                      </Link>
+                      <Link href="/orders">
                         <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
                           <BiMessageSquareDots className="text-2xl text-gray-600 group-hover:text-white " />
                           <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
                             Orders
                           </h3>
                         </div>
-                        </Link>
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                      </Link>
+                    </Disclosure.Panel>
+                  </>
+                )}
+              </Disclosure>
+            </div>
+            {/* setting  */}
+            <div className="my-2 border-b-[3px] border-gray-200 pb-2">
+              <div className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+                <MdOutlineSettings className="text-2xl text-gray-600 group-hover:text-white " />
+                <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+                  Settings
+                </h3>
               </div>
-              {/* setting  */}
-              <div className="my-4 border-b border-gray-100 pb-4">
-                <div className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                  <MdOutlineSettings className="text-2xl text-gray-600 group-hover:text-white " />
-                  <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
-                    Settings
-                  </h3>
-                </div>
-              </div>
-              {/* logout */}
-              <div className="my-4">
-                <div className="flex mb-2 justify-start items-center gap-4 pl-5 border border-gray-200  hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                  <MdOutlineLogout className="text-2xl text-gray-600 group-hover:text-white " />
-                  <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
-                    Logout
-                  </h3>
-                </div>
+            </div>
+            {/* logout */}
+            <div className="my-2">
+              <div className="flex mb-2 justify-start items-center gap-4 pl-5 border border-gray-200  hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+                <MdOutlineLogout className="text-2xl text-gray-600 group-hover:text-white " />
+                <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+                  Logout
+                </h3>
               </div>
             </div>
           </div>
-        </Disclosure>
-        <main className={`ml-0 sm:ml-0 md:${isTablet ? 'ml-0' : 'ml-60'} flex-grow`}>{children}</main>
-      </div>
-    );
-  }
+        </div>
+      </Disclosure>
+      <main
+        className={`${isTablet ? "ml-0" : "ml-72"} flex-grow`}
+        //className="ml-0 sm:ml-0 md:ml-72 flex-grow"
+      >
+        {children}
+      </main>
+    </div>
+  );
+}
+
+SideNavbar.defaultProps = {
+  brandImg: "/img/logo-ct.png",
+  brandName: "CRM",
+};
+
+SideNavbar.propTypes = {
+  brandImg: PropTypes.string,
+  brandName: PropTypes.string,
+};
+
+SideNavbar.displayName = "/components/SideNavbar.jsx";
 
 export default SideNavbar;

@@ -27,7 +27,8 @@ import {
 } from "@mui/icons-material";
 import axios from "axios";
 import { useMediaQuery } from 'react-responsive';
-
+import Header from "@/components/Header";
+import DashboardNavbar from "@/components/DashNav";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import readXlsxFile from "read-excel-file";
@@ -62,6 +63,7 @@ const Brand = () => {
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const isTablet = useMediaQuery({ maxWidth: 768 });
 
   const handleExportRows = (rows) => {
     const filteredRows = rows.map((row) => {
@@ -224,8 +226,8 @@ const Brand = () => {
 
   return (
     <div className='bg-gray-100 min-h-screen font-poppinsBold'>
-      <div className='flex justify-between p-4'>
-      <Typography variant="h3" className="font-poppinsThin">Brand</Typography>
+      <div className='p-4'>
+      {isTablet ? <Header /> : <DashboardNavbar />}
       </div>
       <div className="p-4">
      <Box className='w-full m-auto border rounded-lg bg-white overflow-y-auto'>
