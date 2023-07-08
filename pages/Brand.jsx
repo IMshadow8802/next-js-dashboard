@@ -1,12 +1,9 @@
 import React, { useCallback, useState, useEffect } from "react";
 import MaterialReactTable from "material-react-table";
 import { useSnackbar } from "notistack";
-import { Button } from "@material-tailwind/react";
+import { Button,Typography } from "@material-tailwind/react";
 import {
   CloudArrowUpIcon,
-  ArrowLongRightIcon,
-  ArrowPathIcon,
-  BookmarkIcon,
 } from "@heroicons/react/24/outline";
 import {
   Box,
@@ -17,8 +14,6 @@ import {
   IconButton,
   TextField,
   Tooltip,
-  useMediaQuery,
-  useTheme,
   ThemeProvider,
 } from "@mui/material";
 import { ExportToCsv } from "export-to-csv";
@@ -31,6 +26,7 @@ import {
   FileUploadOutlined,
 } from "@mui/icons-material";
 import axios from "axios";
+import { useMediaQuery } from 'react-responsive';
 
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -61,7 +57,7 @@ const csvOptions = {
 
 const csvExporter = new ExportToCsv(csvOptions);
 
-const Master = () => {
+const Brand = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [validationErrors, setValidationErrors] = useState({});
@@ -229,7 +225,7 @@ const Master = () => {
   return (
     <div className='bg-gray-100 min-h-screen font-poppinsBold'>
       <div className='flex justify-between p-4'>
-        <h1>Brand</h1>
+      <Typography variant="h3" className="font-poppinsThin">Brand</Typography>
       </div>
       <div className="p-4">
      <Box className='w-full m-auto border rounded-lg bg-white overflow-y-auto'>
@@ -367,16 +363,14 @@ export const CreateNewAccountModal = ({
     }
   };
 
-  const theme = useTheme();
-  const isNonMobile = useMediaQuery("(min-width:600px)");
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+
+  const isNonMobile = useMediaQuery({ minWidth: 600 }); 
+//  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <ThemeProvider theme={theme}>
       <Dialog
         open={open}
         fullWidth={true}
-        maxWidth={isSmallScreen ? "xs" : "sm"}
       >
         <DialogTitle textAlign="center">Brand Master</DialogTitle>
         <DialogContent>
@@ -406,16 +400,15 @@ export const CreateNewAccountModal = ({
           </form>
         </DialogContent>
         <DialogActions sx={{ p: "1.25rem" }}>
-          <Button color="secondary" onClick={onClose} variant="outlined">
+          <Button color="blue" onClick={onClose} variant="outlined">
             Cancel
           </Button>
-          <Button color="secondary" onClick={handleSubmit} variant="contained">
+          <Button color="blue" onClick={handleSubmit} variant="filled">
             Create
           </Button>
         </DialogActions>
       </Dialog>
-    </ThemeProvider>
   );
 };
 
-export default Master;
+export default Brand;

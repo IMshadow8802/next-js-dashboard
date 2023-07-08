@@ -52,7 +52,6 @@ const SidebarNew = ({ children }) => {
               <PresentationChartBarIcon className="h-5 w-5" />
             </ListItemPrefix>
             Dashboard
-            <ListItemSuffix>{/* Empty element */}</ListItemSuffix>
           </ListItem>
           </Link>
           <Accordion
@@ -81,12 +80,12 @@ const SidebarNew = ({ children }) => {
             </ListItem>
             <AccordionBody className="py-1">
               <List className="p-0 font-poppinsBold">
-              <Link href="/customers">
+              <Link href="/master">
                 <ListItem>
                   <ListItemPrefix>
                     <ChevronRightIcon strokeWidth={3} className="h-3 w-5" />
                   </ListItemPrefix>
-                  Customer
+                  Brand
                 </ListItem>
                 </Link>
                 <Link href="/orders">
