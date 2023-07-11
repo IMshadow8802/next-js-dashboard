@@ -2,6 +2,7 @@ import React from "react"
 import BarChart from "@/components/BarChart"
 import Header from "@/components/Header"
 import RecentOrders from "@/components/RecentOrders"
+import Task from "@/components/Task"
 import DashboardNavbar from "@/components/DashNav"
 import StatisticsCard from "@/components/StatisticsCard"
 import statisticsCardsData from "@/data/statistics-cards-data"
@@ -39,7 +40,7 @@ export default function Home() {
       {/* <TopCards/> */}
       <div className='p-4 grid md:grid-cols-3 grid-cols-1 gap-4'>
           <BarChart />
-          <RecentOrders />
+          <Task />
         </div>
     </main>
   )

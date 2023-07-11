@@ -1,13 +1,17 @@
 import React from 'react';
 import { BsPersonFill, BsThreeDotsVertical } from 'react-icons/bs';
 import { data } from '../data/data.js';
+import { useMediaQuery } from 'react-responsive';
+import DashboardNavbar from '@/components/DashNav.jsx';
+import Header from '@/components/Header.jsx';
 
 const customers = () => {
+
+  const isTablet = useMediaQuery({ maxWidth: 768 });
   return (
     <div className='bg-gray-100 min-h-screen font-poppinsBold'>
       <div className='flex justify-between p-4'>
-        <h2>Customers</h2>
-        <h2>Welcome Back</h2>
+      {isTablet ? <Header /> : <DashboardNavbar />}
       </div>
       <div className='p-4'>
         <div className='w-full m-auto p-4 border rounded-lg bg-white overflow-y-auto'>

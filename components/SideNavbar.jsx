@@ -17,10 +17,11 @@ import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { RxSketchLogo } from "react-icons/rx";
 import { useMediaQuery } from "react-responsive";
 
-function SideNavbar({ children, brandName,brandImg }) {
+function SideNavbar({ children, brandName, brandImg }) {
   const [isMasterMenuOpen, setIsMasterMenuOpen] = useState(false);
   const isTablet = useMediaQuery({ maxWidth: 768 });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Add state for sidebar open/closed
+  const [selectedItem, setSelectedItem] = useState(null);
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -34,6 +35,10 @@ function SideNavbar({ children, brandName,brandImg }) {
     }
   }, [isTablet]);
 
+  const handleItemClick = (item) => {
+    setSelectedItem(item);
+  };
+
   return (
     <div className="bg-gray-100">
       <Disclosure as="nav">
@@ -46,25 +51,30 @@ function SideNavbar({ children, brandName,brandImg }) {
           </Disclosure.Button>
         )}
         <div
-          className={`p-6 rounded-2xl mt-4 mb-4 mr-1 ml-2 h-[calc(100vh-32px)] bg-white shadow-md shadow-blue-gray-500/5 z-20 fixed top-0 ${
+          className={`p-4 rounded-2xl mt-4 mb-4 mr-1 ml-2 h-[calc(100vh-32px)] bg-gradient-to-br from-blue-gray-800 to-blue-gray-900 shadow-md shadow-blue-gray-500/5 z-20 fixed top-0 ${
             isSidebarOpen ? "left-0" : "-left-full"
           } w-72 transition-all duration-300`}
         >
           <div className="flex flex-col justify-start item-center">
-            <div className="flex flex-row">
-            <Avatar src={brandImg} size="sm" />
-            {brandName && (
-              <Typography variant="h6" color={"blue-gray"}>
-                {brandName}
-              </Typography>
-            )}
+            <div className="flex flex-row gap-2">
+              <Avatar src={brandImg} size="sm" />
+              {brandName && (
+                <Typography variant="h6" color={"white"} className="font-Poppins">
+                  {brandName}
+                </Typography>
+              )}
             </div>
-            <span className="border-b-[3px] border-gray-200 w-full p-2"></span>
-            <div className="my-4 border-b-[3px] border-gray-200 pb-4 flex flex-col">
+            <span className="border-b-[3px] border-white/20 w-full p-2"></span>
+            <div className="my-4 border-b-[3px] border-white/20 pb-4 flex flex-col">
               <Link href="/">
-                <div className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                  <MdOutlineSpaceDashboard className="text-2xl text-gray-600 group-hover:text-white " />
-                  <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+                <div
+                  className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
+                    selectedItem === "dashboard" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                  }`}
+                  onClick={() => handleItemClick("dashboard")}
+                >
+                  <MdOutlineSpaceDashboard className="text-2xl text-white group-hover:text-white " />
+                  <h3 className="text-base text-white group-hover:text-white font-Poppins ">
                     Dashboard
                   </h3>
                 </div>
@@ -73,40 +83,60 @@ function SideNavbar({ children, brandName,brandImg }) {
                 {({ open }) => (
                   <>
                     <Disclosure.Button>
-                      <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                        <MdOutlineIntegrationInstructions className="text-2xl text-gray-600 group-hover:text-white " />
-                        <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+                      <div
+                        className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
+                          selectedItem === "master" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                        }`}
+                        onClick={() => handleItemClick("master")}
+                      >
+                        <MdOutlineIntegrationInstructions className="text-2xl text-white group-hover:text-white " />
+                        <h3 className="text-base text-white group-hover:text-white font-Poppins ">
                           Master
                         </h3>
 
                         {isMasterMenuOpen ? (
-                          <ChevronDownIcon className="h-5 w-5 text-gray-600 group-hover:text-white" />
+                          <ChevronDownIcon className="h-5 w-8 text-white group-hover:text-white" />
                         ) : (
-                          <ChevronRightIcon className="h-5 w-5 text-gray-600 group-hover:text-white" />
+                          <ChevronRightIcon className="h-5 w-8 text-white group-hover:text-white" />
                         )}
                       </div>
                     </Disclosure.Button>
                     <Disclosure.Panel className="pl-4">
                       <Link href="/Brand">
-                        <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                          <FaRegComments className="text-2xl text-gray-600 group-hover:text-white " />
-                          <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+                        <div
+                          className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
+                            selectedItem === "brand" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                          }`}
+                          onClick={() => handleItemClick("brand")}
+                        >
+                          <FaRegComments className="text-2xl text-white group-hover:text-white " />
+                          <h3 className="text-base text-white group-hover:text-white font-Poppins ">
                             Brand
                           </h3>
                         </div>
                       </Link>
                       <Link href="/customers">
-                        <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                          <MdOutlineAnalytics className="text-2xl text-gray-600 group-hover:text-white " />
-                          <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+                        <div
+                          className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
+                            selectedItem === "customers" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                          }`}
+                          onClick={() => handleItemClick("customers")}
+                        >
+                          <MdOutlineAnalytics className="text-2xl text-white group-hover:text-white " />
+                          <h3 className="text-base text-white group-hover:text-white font-Poppins ">
                             Customer
                           </h3>
                         </div>
                       </Link>
                       <Link href="/orders">
-                        <div className="flex  mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                          <BiMessageSquareDots className="text-2xl text-gray-600 group-hover:text-white " />
-                          <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+                        <div
+                          className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
+                            selectedItem === "orders" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                          }`}
+                          onClick={() => handleItemClick("orders")}
+                        >
+                          <BiMessageSquareDots className="text-2xl text-white group-hover:text-white " />
+                          <h3 className="text-base text-white group-hover:text-white font-Poppins ">
                             Orders
                           </h3>
                         </div>
@@ -115,24 +145,44 @@ function SideNavbar({ children, brandName,brandImg }) {
                   </>
                 )}
               </Disclosure>
+              <Link href="/Task">
+                <div
+                  className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
+                    selectedItem === "task" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                  }`}
+                  onClick={() => handleItemClick("task")}
+                >
+                  <MdOutlineSpaceDashboard className="text-2xl text-white group-hover:text-white " />
+                  <h3 className="text-base text-white group-hover:text-white font-Poppins ">
+                    Task
+                  </h3>
+                </div>
+              </Link>
             </div>
             {/* setting  */}
-            <div className="my-2 border-b-[3px] border-gray-200 pb-2">
-              <div className="flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                <MdOutlineSettings className="text-2xl text-gray-600 group-hover:text-white " />
-                <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+            <div className="my-2 border-b-[3px] border-white/20 pb-2">
+              <div
+                className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
+                  selectedItem === "settings" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                }`}
+                onClick={() => handleItemClick("settings")}
+              >
+                <MdOutlineSettings className="text-2xl text-white group-hover:text-white " />
+                <h3 className="text-base text-white group-hover:text-white font-Poppins ">
                   Settings
                 </h3>
               </div>
             </div>
             {/* logout */}
             <div className="my-2">
-              <div className="flex mb-2 justify-start items-center gap-4 pl-5 border border-gray-200  hover:bg-gray-900 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
-                <MdOutlineLogout className="text-2xl text-gray-600 group-hover:text-white " />
-                <h3 className="text-base text-gray-800 group-hover:text-white font-poppinsBold ">
+              <Link href="/SignIn">
+              <div className="flex mb-2 justify-start items-center gap-4 pl-5 border border-white/20 hover:bg-gray-900/40  p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+                <MdOutlineLogout className="text-2xl text-white group-hover:text-white " />
+                <h3 className="text-base text-white group-hover:text-white font-Poppins ">
                   Logout
                 </h3>
               </div>
+              </Link>
             </div>
           </div>
         </div>

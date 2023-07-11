@@ -30,7 +30,7 @@ export function DashboardNavbar() {
   return (
     <Navbar
       color="white"
-      className="rounded-xl transition-all sticky top-4 z-40 py-3 shadow-md shadow-blue-gray-500/5"
+      className="rounded-xl transition-all sticky top-4 z-40 py-3 bg-white"
       fullWidth
     >
       <div className="flex flex-col-reverse justify-between gap-6 md:flex-row md:items-center">
@@ -80,7 +80,7 @@ export function DashboardNavbar() {
           >
             <Bars3Icon strokeWidth={3} className="h-6 w-6 text-blue-gray-500" />
           </IconButton>
-          <Link href="/auth/sign-in" passHref>
+          <Link href="/SignIn" passHref>
             <Button
               variant="text"
               color="blue-gray"

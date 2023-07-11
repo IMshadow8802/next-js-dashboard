@@ -2,16 +2,19 @@ import React from 'react';
 import { FaShoppingBag } from 'react-icons/fa';
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import { data } from '../data/data.js';
+import { useMediaQuery } from 'react-responsive';
+import DashboardNavbar from '@/components/DashNav.jsx';
+import Header from '@/components/Header.jsx';
 
 const orders = () => {
+  const isTablet = useMediaQuery({ maxWidth: 768 });
   return (
     <div className='bg-gray-100 min-h-screen font-poppinsBold'>
       <div className='flex justify-between px-4 pt-4 font-poppinsBold'>
-        <h2>Orders</h2>
-        <h2>Welcome Back</h2>
+      {isTablet ? <Header /> : <DashboardNavbar />}
       </div>
       <div className='p-4'>
-        <div className='w-full m-auto p-4 border rounded-lg bg-white overflow-y-auto'>
+        <div className='w-full m-auto p-4 border rounded-lg bg-white/70 overflow-y-auto'>
           <div className='my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer'>
             <span className='font-poppinsBold'>Order</span>
             <span className='sm:text-left text-right font-poppinsBold'>Status</span>
@@ -30,7 +33,7 @@ const orders = () => {
                   </div>
                   <div className='pl-4'>
                     <p className='text-gray-800 font-poppinsBold'>
-                      ${order.total.toLocaleString()}
+                    ₹{order.total.toLocaleString()}
                     </p>
                     <p className='text-gray-800 text-sm font-poppinsBold'>{order.name.first}</p>
                   </div>
