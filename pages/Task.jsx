@@ -117,12 +117,13 @@ const Task = () => {
               <h3 className="text-white font-poppinsBold">Add Task</h3>
             </CardHeader>
             <CardBody className="flex flex-col gap-4">
-              <Input variant="outlined" label="Outlined" />
+              <Input variant="outlined" label="Task" />
+              <Input variant="outlined" label="Assigned To" />
               <Textarea label="Description" />
               <Select color="blue" label="Status">
-                <Option>Material Tailwind HTML</Option>
-                <Option>Material Tailwind React</Option>
-                <Option>Material Tailwind Vue</Option>
+                <Option>ToDo</Option>
+                <Option>Doing</Option>
+                <Option>Done</Option>
               </Select>
             </CardBody>
             <CardFooter className="pt-0">
