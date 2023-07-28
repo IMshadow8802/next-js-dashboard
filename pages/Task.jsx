@@ -45,8 +45,8 @@ const Task = () => {
     handleCloseDialog();
   };
   return (
-    <div className="bg-gray-100 min-h-screen font-poppinsBold">
-      <div className="flex justify-between px-4 pt-4 font-poppinsBold">
+    <div className="bg-gray-100 min-h-screen font-Poppins">
+      <div className="flex justify-between px-4 pt-4 font-Poppins">
         {isTablet ? <Header /> : <DashboardNavbar />}
       </div>
       <div className="p-4">
