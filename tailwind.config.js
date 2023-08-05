@@ -31,10 +31,10 @@ module.exports = withMT({
         sans: ['Poppins', 'sans-serif'],
         // "Poppins": ["Poppins", "sans-serif"],
       },
-      // fontWeight: {
-      //   poppinsThin: 400,
-      //   poppinsBold: 500,
-      // },
+      fontWeight: {
+        poppinsThin: 400,
+        poppinsBold: 500,
+      },
     },
   },
   plugins: [],

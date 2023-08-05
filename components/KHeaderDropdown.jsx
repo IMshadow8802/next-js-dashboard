@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { Switch } from "@headlessui/react";
 import boardsSlice from "../redux/boardSlice";
 
-
 function KHeaderDropDown({ setOpenDropdown, setIsBoardModalOpen }) {
-
   const boardIcon = "/img/icon-board.svg";
   const darkIcon = "/img/icon-dark-theme.svg";
   const lightIcon = "/img/icon-light-theme.svg";
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const boards = useSelector((state) => state.boards);
 
@@ -44,40 +42,20 @@ function KHeaderDropDown({ setOpenDropdown, setIsBoardModalOpen }) {
               }}
             >
               <img src={boardIcon} className="  filter-white  h-4 " />{" "}
-              <p className=" text-lg font-bold  ">{board.name}</p>
+              <p className=" text-lg font-poppinsBold  ">{board.name}</p>
             </div>
           ))}
 
-          <div 
-          onClick={() => {
-            setIsBoardModalOpen(true);
-            setOpenDropdown(false)
-          }}
-          className=" flex items-baseline space-x-2  text-[#635fc7] px-5 py-4  ">
+          <div
+            onClick={() => {
+              setIsBoardModalOpen(true);
+              setOpenDropdown(false);
+            }}
+            className=" flex items-baseline space-x-2  text-[#635fc7] px-5 py-4  "
+          >
             <img src={boardIcon} className="   filter-white  h-4 " />
-            <p className=" text-lg font-bold  ">Create New Board </p>
+            <p className=" text-lg font-poppinsBold  ">Create New Board </p>
           </div>
-
-          {/* <div className=" mx-2  p-4  space-x-2 bg-slate-100 dark:bg-[#20212c] flex justify-center items-center rounded-lg">
-            <img src={lightIcon} alt="sun indicating light mode" />
-
-            <Switch
-              checked={darkSide}
-              onChange={toggleDarkMode}
-              className={`${
-                darkSide ? "bg-[#635fc7]" : "bg-gray-200"
-              } relative inline-flex h-6 w-11 items-center rounded-full`}
-            >
-              <span className="sr-only">Enable notifications</span>
-              <span
-                className={`${
-                  darkSide ? "translate-x-6" : "translate-x-1"
-                } inline-block h-4 w-4 transform rounded-full bg-white transition`}
-              />
-            </Switch>
-
-            <img src={darkIcon} alt="moon indicating dark mode" />
-          </div> */}
         </div>
       </div>
     </div>
