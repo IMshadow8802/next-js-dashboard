@@ -171,6 +171,19 @@ function SideNavbar({ children, brandName, brandImg }) {
                   </h3>
                 </div>
               </Link>
+              <Link href="/Attendance">
+                <div
+                  className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
+                    selectedItem === "Attendance" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                  }`}
+                  onClick={() => handleItemClick("Attendance")}
+                >
+                  <MdOutlineSpaceDashboard className="text-2xl text-white group-hover:text-white " />
+                  <h3 className="text-base text-white group-hover:text-white font-Poppins ">
+                  Attendance
+                  </h3>
+                </div>
+              </Link>
             </div>
             {/* setting  */}
             <div className="my-2 border-b-[3px] border-white/20 pb-2">

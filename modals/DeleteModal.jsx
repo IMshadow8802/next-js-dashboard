@@ -1,8 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import boardsSlice from "@/redux/boardSlice";
-import { Dialog, Input, Textarea } from "@material-tailwind/react";
+import React from "react";
+import { Dialog} from "@material-tailwind/react";
 
 const DeleteModal = ({
   type,

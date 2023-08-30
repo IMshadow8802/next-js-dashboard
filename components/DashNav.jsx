@@ -22,6 +22,7 @@ import {
   Bars3Icon,
 } from "@heroicons/react/24/solid";
 
+
 export function DashboardNavbar() {
   const router = useRouter();
   const { pathname } = router;

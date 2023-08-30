@@ -4,19 +4,8 @@ import {
   Card,
   CardHeader,
   CardBody,
-  IconButton,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
-  Tooltip,
-  Progress,
 } from "@material-tailwind/react";
 import {
-  ClockIcon,
-  CheckIcon,
-  EllipsisVerticalIcon,
   ArrowUpIcon,
 } from "@heroicons/react/24/outline";
 import ordersOverviewData from "@/data/ordersOverviewData";
