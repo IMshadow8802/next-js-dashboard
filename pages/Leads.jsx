@@ -133,9 +133,9 @@ const Leads = () => {
       const {
         Id,
         EditDate,
-        CreateDate,
+        CreatedDate,
         EditUid,
-        CreateUid,
+        CreatedUid,
         CompId,
         BranchId,
         ...rest
