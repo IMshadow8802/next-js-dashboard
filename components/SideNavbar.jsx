@@ -102,16 +102,16 @@ function SideNavbar({ children, brandName, brandImg }) {
                       </div>
                     </Disclosure.Button>
                     <Disclosure.Panel className="pl-4">
-                      <Link href="/Brand">
+                      <Link href="/Leads">
                         <div
                           className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                            selectedItem === "brand" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                            selectedItem === "leads" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
                           }`}
-                          onClick={() => handleItemClick("brand")}
+                          onClick={() => handleItemClick("leads")}
                         >
                           <FaRegComments className="text-2xl text-white group-hover:text-white " />
                           <h3 className="text-base text-white group-hover:text-white font-Poppins ">
-                            Brand
+                            Leads
                           </h3>
                         </div>
                       </Link>

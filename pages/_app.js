@@ -1,7 +1,6 @@
-// pages/_app.js
-import { Provider } from "react-redux";
-import { ToastContainer } from 'react-toastify';
-import store from "../redux/store";
+import { Provider } from 'react-redux';
+import { SnackbarProvider } from 'notistack'; // Import SnackbarProvider from notistack
+import store from '../redux/store';
 import '@/styles/globals.css';
 import SideNavbar from '@/components/SideNavbar';
 
@@ -12,13 +11,19 @@ function App({ Component, pageProps }) {
 
   return (
     <Provider store={store}>
-      <ToastContainer position="top-center" /> {/* Add ToastContainer */}
-      <SideNavbar>
-        <Component {...pageProps} />
-      </SideNavbar>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'center',
+        }}
+        maxSnack={3} // Adjust maxSnack to control the number of notifications shown at once
+      >
+        <SideNavbar>
+          <Component {...pageProps} />
+        </SideNavbar>
+      </SnackbarProvider>
     </Provider>
   );
 }
 
 export default App;
-
