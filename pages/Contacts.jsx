@@ -29,88 +29,44 @@ import axios from "axios";
 import { useMediaQuery } from "react-responsive";
 import Header from "@/components/Header";
 import DashboardNavbar from "@/components/DashNav";
-import useAuthStore from "@/zustand/useAuthStore";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import readXlsxFile from "read-excel-file";
+import useAuthStore from "@/zustand/useAuthStore";
 
 const columns = [
   {
-    accessorKey: "CompanyName",
-    header: "CompanyName",
+    accessorKey: "Name",
+    header: "Name",
   },
   {
-    accessorKey: "Date",
-    header: "Date",
+    accessorKey: "Company",
+    header: "Company",
   },
   {
-    accessorKey: "Address",
-    header: "Address",
+    accessorKey: "Mobile",
+    header: "Mobile",
   },
   {
     accessorKey: "Phone",
     header: "Phone",
   },
   {
-    accessorKey: "Name",
-    header: "Name",
-  },
-  {
-    accessorKey: "Title",
-    header: "Title",
+    accessorKey: "Address",
+    header: "Address",
   },
   {
     accessorKey: "Email",
     header: "Email",
   },
   {
-    accessorKey: "MobileNo",
-    header: "MobileNo",
-  },
-  {
-    accessorKey: "Website",
-    header: "Website",
-  },
-  {
-    accessorKey: "Source",
-    header: "Source",
-  },
-  {
-    accessorKey: "Status",
-    header: "Status",
-  },
-  {
-    accessorKey: "QueryType",
-    header: "QueryType",
-  },
-  {
-    accessorKey: "NoOfEmp",
-    header: "NoOfEmp",
-  },
-  {
-    accessorKey: "AnnualRevenue",
-    header: "AnnualRevenue",
-  },
-  {
-    accessorKey: "Rating",
-    header: "Rating",
-  },
-  {
     accessorKey: "Remarks",
     header: "Remarks",
-  },
-  {
-    accessorKey: "AssignTo",
-    header: "AssignTo",
-  },
-  {
-    accessorKey: "FlowupDate",
-    header: "FlowupDate",
-  },
+  }
 ];
 
 const csvOptions = {
-  filename: "Lead",
+  filename: "Contacts",
   fieldSeparator: ",",
   quoteStrings: '"',
   decimalSeparator: ".",
@@ -122,7 +78,7 @@ const csvOptions = {
 
 const csvExporter = new ExportToCsv(csvOptions);
 
-const Leads = () => {
+const Contacts = () => {
   const [createModalOpen, setCreateModalOpen] = useState(false);
   const [tableData, setTableData] = useState([]);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -134,9 +90,9 @@ const Leads = () => {
       const {
         Id,
         EditDate,
-        CreatedDate,
+        CreateDate,
         EditUid,
-        CreatedUid,
+        CreateUid,
         CompId,
         BranchId,
         ...rest
@@ -149,10 +105,9 @@ const Leads = () => {
   const fetchData = useCallback(async () => {
     try {
       const response = await axios.post(
-        "http://103.30.72.63/eCRM/api/Leads/FetchLeads",
+        "http://103.30.72.63/eCRM/api/Contact/FetchContactDetails",
         { Id: 0 }
       );
-      //console.log(response.data)
       setTableData(response.data);
     } catch (error) {
       console.log(error);
@@ -166,84 +121,6 @@ const Leads = () => {
   const handleCreateNewRow = (values) => {
     tableData.push(values);
     setTableData([...tableData]);
-  };
-
-  const handleDeleteRow = useCallback(
-    async (row) => {
-      console.log(row.original.Id);
-      enqueueSnackbar(`Are you sure you want to delete the Lead?`, {
-        variant: "warning",
-        persist: true,
-        action: (key) => (
-          <>
-            <Button color="green"
-              onClick={() => {
-                deleteBrand();
-                closeSnackbar(key);
-              }}
-            >
-              Yes
-            </Button>
-            <Button color="red"
-              onClick={() => {
-                closeSnackbar(key);
-              }}
-            >
-              No
-            </Button>
-          </>
-        ),
-      });
-
-      const deleteBrand = async () => {
-
-        try {
-          await axios.post(`http://103.30.72.63/eCRM/api/Leads/DeleteLeads`, {
-            Id: row.original.Id,
-          });
-          setTableData((prevState) =>
-            prevState.filter((item) => item.Id !== row.Id)
-          );
-          await fetchData(setTableData);
-          enqueueSnackbar("Lead deleted successfully!", {
-            variant: "success",
-          });
-        } catch (error) {
-          console.log("Error deleting Lead:", error);
-          enqueueSnackbar("Failed to delete Lead!", { variant: "error" });
-        }
-      };
-    },
-    [fetchData, closeSnackbar, enqueueSnackbar]
-  );
-
-  const handleSaveCell = async (cell, value) => {
-    try {
-      // Extract the relevant data
-      const { id, row, column } = cell;
-      const originalData = {...row.original};
-      const accessorKey = column.id;
-
-      // Update the original data with the new value
-      originalData[accessorKey] = value;
-
-      //console.log(originalData);
-
-      // Make an API request to update the data
-      await axios.post(
-        "http://103.30.72.63/eCRM/api/Leads/SaveLeads",
-        originalData
-      );
-
-      // Update the table data
-      await fetchData();
-      enqueueSnackbar("Lead updated successfully!", {
-        variant: "success",
-      });
-    } catch (error) {
-      console.log("Error updating Lead:", error);
-      enqueueSnackbar("Failed to update Lead!", { variant: "error" });
-    }
   };
 
   return (
@@ -265,35 +142,10 @@ const Leads = () => {
               data={tableData}
               enableStickyHeader
               enableStickyFooter
+              enableRowNumbers
+      rowNumberMode="original"
               muiTableContainerProps={{ sx: { maxHeight: "480px" } }}
-              editingMode="cell" //default
               enableColumnOrdering
-              enableEditing
-              muiTableBodyCellEditTextFieldProps={({ cell }) => ({
-                //onBlur is more efficient, but could use onChange instead
-                onBlur: (event) => {
-                  handleSaveCell(cell, event.target.value);
-                },
-              })}
-              enableRowActions
-              renderRowActions={({ row, table }) => (
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: "1rem",
-                  }}
-                >
-                  <Tooltip arrow placement="right" title="Delete">
-                    <IconButton
-                      color="error"
-                      onClick={() => handleDeleteRow(row)}
-                    >
-                      <Delete />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              )}
               renderTopToolbarCustomActions={({ table }) => (
                 <Box className="flex flex-wrap gap-2">
                   <Button
@@ -315,14 +167,6 @@ const Leads = () => {
                     Export All Data
                   </Button>
                 </Box>
-              )}
-              renderBottomToolbarCustomActions={() => (
-                <Typography
-                  sx={{ fontStyle: "italic", p: "0 1rem" }}
-                  variant="small"
-                >
-                  Double-Click a Cell to Edit
-                </Typography>
               )}
               options={{
                 tableLayout: "auto",
@@ -362,6 +206,7 @@ export const CreateNewAccountModal = ({
   });
 
   const user = useAuthStore(state => state.user);
+  //console.log(user);
 
   const handleSubmit = async () => {
     try {
@@ -376,35 +221,35 @@ export const CreateNewAccountModal = ({
         .toString()
         .padStart(2, "0")}T00:00:00`;
 
-      const newLead = {
+      const newContact = {
         Id: 0,
         EditDate: formattedDate,
-        CreatedDate: formattedDate,
+        CreateDate: formattedDate,
         EditUid: 1,
-        CreatedUid: 1,
+        CreateUid: 1,
         CompId: user.CompId,
         BranchId: user.BranchId,
         ...values,
       };
 
-      console.log(newLead);
+      console.log(newContact);
 
       // Make an API request to create the new Lead
-      await axios.post("http://103.30.72.63/eCRM/api/Leads/SaveLeads", newLead);
+      await axios.post("http://103.30.72.63/eCRM/api/Contact/SaveContactDetails", newContact);
 
       // Update the table data
       await fetchData();
 
       // Show a success snackbar
-      enqueueSnackbar("Lead created successfully!", { variant: "success" });
+      enqueueSnackbar("Contact created successfully!", { variant: "success" });
 
       // Close the modal
       onClose();
     } catch (error) {
-      console.error("Error creating Lead:", error);
+      console.error("Error creating Contact:", error);
 
       // Show an error snackbar
-      enqueueSnackbar("Failed to create Lead!", { variant: "error" });
+      enqueueSnackbar("Failed to Create Contact!", { variant: "error" });
     }
   };
 
@@ -413,7 +258,7 @@ export const CreateNewAccountModal = ({
 
   return (
     <Dialog open={open} fullWidth={true}>
-      <DialogTitle textAlign="center">Create Lead</DialogTitle>
+      <DialogTitle textAlign="center">Create Contact</DialogTitle>
       <DialogContent>
         <form onSubmit={(e) => e.preventDefault()}>
           <Box
@@ -426,32 +271,8 @@ export const CreateNewAccountModal = ({
           >
             {columns.map((column, index) => (
               <React.Fragment key={index}>
-                {column.accessorKey === "FlowupDate" ||
-                column.accessorKey === "Date" ? (
-                  <TextField
-                    key={index}
-                    fullWidth
-                    variant="outlined"
-                    label={column.header}
-                    name={column.accessorKey}
-                    type="date"
-                    InputLabelProps={{
-                      shrink: true,
-                    }}
-                    onChange={(e) => {
-                      // Format the date value to "yyyy-MM-ddTHH:mm:ss" before storing it
-                      const rawDateValue = e.target.value;
-                      const formattedDate = `${rawDateValue}T00:00:00`;
-                      setValues({ ...values, [e.target.name]: formattedDate });
-                    }}
-                    sx={{
-                      gridColumn: "span 4",
-                      "& input": {
-                        padding: "16px",
-                      },
-                    }}
-                  />
-                ) : (
+                {
+                (
                   <TextField
                     key={index}
                     fullWidth
@@ -481,4 +302,4 @@ export const CreateNewAccountModal = ({
   );
 };
 
-export default Leads;
+export default Contacts;

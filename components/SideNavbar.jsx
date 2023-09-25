@@ -16,12 +16,19 @@ import React, { useState, useEffect } from "react";
 import { ChevronRightIcon, ChevronDownIcon } from "@heroicons/react/24/outline";
 import { RxSketchLogo } from "react-icons/rx";
 import { useMediaQuery } from "react-responsive";
+import useAuthStore from "@/zustand/useAuthStore";
 
 function SideNavbar({ children, brandName, brandImg }) {
   const [isMasterMenuOpen, setIsMasterMenuOpen] = useState(false);
   const isTablet = useMediaQuery({ maxWidth: 768 });
   const [isSidebarOpen, setIsSidebarOpen] = useState(true); // Add state for sidebar open/closed
   const [selectedItem, setSelectedItem] = useState(null);
+  const authStore = useAuthStore();
+
+  const handleLogout = () => {
+    authStore.logout(); // Call the logout function from the Zustand store
+    // You can also add a redirect to the login page here if needed
+  };
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -59,7 +66,11 @@ function SideNavbar({ children, brandName, brandImg }) {
             <div className="flex flex-row gap-2">
               <Avatar src={brandImg} size="sm" />
               {brandName && (
-                <Typography variant="h6" color={"white"} className="font-Poppins">
+                <Typography
+                  variant="h6"
+                  color={"white"}
+                  className="font-Poppins"
+                >
                   {brandName}
                 </Typography>
               )}
@@ -69,7 +80,9 @@ function SideNavbar({ children, brandName, brandImg }) {
               <Link href="/">
                 <div
                   className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                    selectedItem === "dashboard" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                    selectedItem === "dashboard"
+                      ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                      : ""
                   }`}
                   onClick={() => handleItemClick("dashboard")}
                 >
@@ -85,7 +98,9 @@ function SideNavbar({ children, brandName, brandImg }) {
                     <Disclosure.Button>
                       <div
                         className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                          selectedItem === "master" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                          selectedItem === "master"
+                            ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                            : ""
                         }`}
                         onClick={() => handleItemClick("master")}
                       >
@@ -105,7 +120,9 @@ function SideNavbar({ children, brandName, brandImg }) {
                       <Link href="/Leads">
                         <div
                           className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                            selectedItem === "leads" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                            selectedItem === "leads"
+                              ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                              : ""
                           }`}
                           onClick={() => handleItemClick("leads")}
                         >
@@ -115,29 +132,35 @@ function SideNavbar({ children, brandName, brandImg }) {
                           </h3>
                         </div>
                       </Link>
-                      <Link href="/customers">
+                      <Link href="/ComplaintRegister">
                         <div
                           className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                            selectedItem === "customers" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                            selectedItem === "complaintRegistration"
+                              ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                              : ""
                           }`}
-                          onClick={() => handleItemClick("customers")}
+                          onClick={() =>
+                            handleItemClick("complaintRegistration")
+                          }
                         >
                           <MdOutlineAnalytics className="text-2xl text-white group-hover:text-white " />
                           <h3 className="text-base text-white group-hover:text-white font-Poppins ">
-                            Customer
+                            Complaint Register
                           </h3>
                         </div>
                       </Link>
-                      <Link href="/orders">
+                      <Link href="/Contacts">
                         <div
                           className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                            selectedItem === "orders" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                            selectedItem === "contacts"
+                              ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                              : ""
                           }`}
-                          onClick={() => handleItemClick("orders")}
+                          onClick={() => handleItemClick("contacts")}
                         >
                           <BiMessageSquareDots className="text-2xl text-white group-hover:text-white " />
                           <h3 className="text-base text-white group-hover:text-white font-Poppins ">
-                            Orders
+                            Contacts
                           </h3>
                         </div>
                       </Link>
@@ -148,7 +171,9 @@ function SideNavbar({ children, brandName, brandImg }) {
               <Link href="/Task">
                 <div
                   className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                    selectedItem === "task" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                    selectedItem === "task"
+                      ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                      : ""
                   }`}
                   onClick={() => handleItemClick("task")}
                 >
@@ -161,7 +186,9 @@ function SideNavbar({ children, brandName, brandImg }) {
               <Link href="/Kanban">
                 <div
                   className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                    selectedItem === "kanban" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                    selectedItem === "kanban"
+                      ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                      : ""
                   }`}
                   onClick={() => handleItemClick("kanban")}
                 >
@@ -174,22 +201,26 @@ function SideNavbar({ children, brandName, brandImg }) {
               <Link href="/Attendance">
                 <div
                   className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                    selectedItem === "Attendance" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                    selectedItem === "Attendance"
+                      ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                      : ""
                   }`}
                   onClick={() => handleItemClick("Attendance")}
                 >
                   <MdOutlineSpaceDashboard className="text-2xl text-white group-hover:text-white " />
                   <h3 className="text-base text-white group-hover:text-white font-Poppins ">
-                  Attendance
+                    Attendance
                   </h3>
                 </div>
               </Link>
             </div>
             {/* setting  */}
-            <div className="my-2 border-b-[3px] border-white/20 pb-2">
+            {/* <div className="my-2 border-b-[3px] border-white/20 pb-2">
               <div
                 className={`flex mb-2 justify-start items-center gap-4 pl-5 hover:bg-gray-900/40 p-3 rounded-md group cursor-pointer hover:shadow-lg m-auto ${
-                  selectedItem === "settings" ? "bg-gradient-to-br from-blue-500 to-blue-700 " : ""
+                  selectedItem === "settings"
+                    ? "bg-gradient-to-br from-blue-500 to-blue-700 "
+                    : ""
                 }`}
                 onClick={() => handleItemClick("settings")}
               >
@@ -198,17 +229,18 @@ function SideNavbar({ children, brandName, brandImg }) {
                   Settings
                 </h3>
               </div>
-            </div>
+            </div> */}
             {/* logout */}
             <div className="my-2">
-              <Link href="/SignIn">
-              <div className="flex mb-2 justify-start items-center gap-4 pl-5 border border-white/20 hover:bg-gray-900/40  p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto">
+              <div
+                className="flex mb-2 justify-start items-center gap-4 pl-5 border border-white/20 hover:bg-gray-900/40  p-2 rounded-md group cursor-pointer hover:shadow-lg m-auto"
+                onClick={handleLogout}
+              >
                 <MdOutlineLogout className="text-2xl text-white group-hover:text-white " />
                 <h3 className="text-base text-white group-hover:text-white font-Poppins ">
                   Logout
                 </h3>
               </div>
-              </Link>
             </div>
           </div>
         </div>

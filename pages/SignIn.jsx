@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { useState } from "react";
+import { useRouter } from "next/router";
 import {
   Card,
   CardHeader,
@@ -9,8 +10,43 @@ import {
   Button,
   Typography,
 } from "@material-tailwind/react";
+import { useSnackbar } from 'notistack';
+import axios from "axios";
+import useAuthStore from "@/zustand/useAuthStore";
 
 export function SignIn() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const { enqueueSnackbar } = useSnackbar();
+  const router = useRouter();
+  const authStore = useAuthStore();
+
+  const handleLogin = async () => {
+    try {
+      // Make a request to the login API
+      const loginResponse = await axios.post(
+        "http://103.30.72.63/eCRM/api/User/fetchUser_Validate",
+        {
+          username,
+          password,
+        }
+      );
+
+      // Check if the login was successful
+      if (loginResponse.data) {
+        // Set the user data in the Zustand store
+        authStore.login(loginResponse.data);
+
+        enqueueSnackbar("Login successful", { variant: "success" });
+        router.push("/");
+      } else {
+        enqueueSnackbar("Login failed", { variant: "error" });
+      }
+    } catch (error) {
+      console.error("Error logging in:", error);
+    }
+  };
+
   return (
     <>
       <div className="absolute inset-0 z-0 h-full w-full bg-white/70" />
@@ -26,26 +62,25 @@ export function SignIn() {
             </Typography>
           </CardHeader>
           <CardBody className="flex flex-col gap-4">
-            <Input type="email" label="Email" size="lg" />
-            <Input type="password" label="Password" size="lg" />
+            <Input
+              type="username"
+              label="Username"
+              size="lg"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <Input
+              type="password"
+              label="Password"
+              size="lg"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
           </CardBody>
           <CardFooter className="pt-0">
-            <Button variant="gradient" fullWidth>
+            <Button variant="gradient" fullWidth onClick={handleLogin}>
               Sign In
             </Button>
-            <Typography variant="small" className="mt-6 flex justify-center">
-              Don't have an account?
-              <Link href="/SignUp">
-                <Typography
-                  as="span"
-                  variant="small"
-                  color="blue"
-                  className="ml-1 font-bold"
-                >
-                  Sign up
-                </Typography>
-              </Link>
-            </Typography>
           </CardFooter>
         </Card>
       </div>
